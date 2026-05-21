@@ -33,13 +33,20 @@
   gap: 1rem;
 }
 .calendar-wrapper {
- position: relative;
+  position: relative;
   overflow: hidden;
   padding-bottom: 75%; 
   height: 0;
   max-width: 100%;
-  border: 1px solid   var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  
+  /*  Background Color (Shows behind the calendar during loading) */
+  background-color: #ffffff;
 }
+
 .calendar-wrapper iframe {
   position: absolute;
   top: 0;

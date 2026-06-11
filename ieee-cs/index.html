@@ -19,7 +19,11 @@
   </head>
   <body>
     <script>
-      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+      window.si =
+        window.si ||
+        function () {
+          (window.siq = window.siq || []).push(arguments);
+        };
     </script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <nav class="navbar" role="navigation" aria-label="Main navigation">
@@ -172,6 +176,18 @@
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
+          </section>
+
+          <h3 class="calendar-heading">Upcoming Events</h3>
+          <section
+            class="calendar-wrapper"
+            aria-label="Upcoming events calendar"
+          >
+            <iframe
+              title="IEEE CS events calendar"
+              src="https://calendar.google.com/calendar/embed?height=500&wkst=1&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&mode=Month&src=MmI2MTI2NTk1MTNiNGNjNTI5NmZhMTg4ZWRkNjdlNjg1NDhjMjJlYjY5YjBkZGVhMjYzMjkzODkwNzY0YjI1ZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2324849d"
+              scrolling="no"
+            ></iframe>
           </section>
         </div>
       </div>

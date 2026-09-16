@@ -3,12 +3,6 @@
    Handles: dropdown nav, mobile menu, active link detection
    ============================================================ */
 
-window.si =
-  window.si ||
-  function () {
-    (window.siq = window.siq || []).push(arguments);
-  };
-
 document.addEventListener("DOMContentLoaded", () => {
   /* ── Dropdown navigation ── */
   const dropdownTriggers = document.querySelectorAll("[data-dropdown]");

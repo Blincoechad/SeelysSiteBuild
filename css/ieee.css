@@ -1,60 +1,20 @@
 /* ============================================================
    Club Roster — Site Theme Override
-  
+
+   Note: this file used to also carry a standalone-page preamble
+   (:root token redeclarations, a *,*::before,*::after reset, and
+   bare body/.container/h2 rules) left over from when the roster
+   widget was previewed on its own. Those duplicated css/styles.css
+   verbatim — which always loads first on every real page — except
+   for .container's max-width (700px here vs. styles.css's 1100px)
+   and body's 2rem/1rem padding, neither of which styles.css sets.
+   Because this file loads after styles.css, those two differences
+   were winning the cascade on every real IEEE page, silently
+   capping .container at 700px and padding the page body — removed
+   here since they were bugs, not intentional overrides.
    ============================================================ */
 
-:root {
-  --navy: #615c68;
-  --navy-mid: #4a4752;
-  --slate: #8b8793;
-  --slate-light: #a9a0b0;
-  --cream: #1a1a1f;
-  --white: #dddddd;
-  --border: #3e3d42;
-  --border-dark: #4a4752;
-  --accent: #24849d;
-  --accent-light: #d4e9f0;
-  --amber: #c9956f;
-  --amber-light: #e8d5c4;
-  --success: #4caf7f;
-  --font-head: "DM Serif Display", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --radius: 8px;
-  --radius-lg: 14px;
-  --shadow-sm: 0 24px 42px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 24px 42px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--cream);
-  color: var(--white);
-  padding: 2rem 1rem;
-}
-
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
 /* --- Headings --- */
-h2 {
-  font-family: var(--font-head);
-  font-size: 28px;
-  font-weight: 400;
-  color: var(--white);
-  margin-bottom: 4px;
-  letter-spacing: 0.01em;
-}
-
 .roster-container h2 {
   margin-bottom: 28px;
   text-align: center;

@@ -26,7 +26,6 @@
   --accent-light: #d4e9f0;
   --amber: #c9956f;
   --amber-light: #e8d5c4;
-  --success: #4caf7f;
   --font-head: "DM Serif Display", Georgia, serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   --radius: 8px;
@@ -312,6 +311,98 @@ h4 {
   margin-left: auto;
   font-size: 18px;
   color: #e8e6eb;
+}
+
+/* Theme switch (light/dark) — sits right of the logo on desktop,
+   and moves next to the hamburger button on mobile (see media query
+   in the Responsive section). It's a real checkbox for accessibility
+   (visually hidden, sized to a 1px clip rect) with a styled track +
+   sliding knob built from its siblings; :checked = dark mode (the
+   site's native theme). Colors are fixed literals from the site's
+   existing dark-theme palette rather than the [data-theme="light"]
+   -reactive variables, so the control always renders the same way
+   regardless of which theme is currently active. */
+.theme-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.theme-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.theme-switch__track {
+  display: flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #4a4752;
+  transition: background 0.25s ease;
+}
+.theme-switch__thumb {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f5f2ee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+.theme-switch__icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 13px;
+  height: 13px;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease;
+}
+.theme-switch__icon--sun {
+  color: #c9956f;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.theme-switch__icon--moon {
+  color: #24849d;
+  opacity: 0;
+  transform: scale(0.4) rotate(45deg);
+}
+.theme-switch__input:checked ~ .theme-switch__track {
+  background: #c5c2ca;
+}
+.theme-switch__input:checked ~ .theme-switch__track .theme-switch__thumb {
+  transform: translateX(20px);
+  background: #1a1a1f;
+}
+.theme-switch__input:checked ~ .theme-switch__track .theme-switch__icon--sun {
+  opacity: 0;
+  transform: scale(0.4) rotate(-45deg);
+}
+.theme-switch__input:checked
+  ~ .theme-switch__track
+  .theme-switch__icon--moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.theme-switch__input:focus-visible ~ .theme-switch__track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ── Page Header ── */
@@ -1530,6 +1621,11 @@ h4 {
   .navbar__toggle {
     display: flex;
     align-items: center;
+    margin-left: 0;
+  }
+  .theme-switch {
+    margin-left: auto;
+    margin-right: 8px;
   }
   .footer__grid {
     grid-template-columns: 1fr;
@@ -1811,4 +1907,298 @@ h4 {
 }
 .rec-modal--pub .pub-modal__link:hover {
   text-decoration: underline;
+}
+
+/* ============================================================
+   LIGHT THEME (accessibility toggle)
+   ============================================================ */
+
+:root[data-theme="light"] {
+  --cream: #f5f2ee;
+  --surface: #ffffff;
+  --slate: #6b6572;
+  --slate-light: #78717f;
+  --border: #ddd8de;
+  --border-dark: #c7c1cd;
+  --accent: #136f85;
+  --accent-light: #0f7c94;
+  --amber: #9a5f34;
+  --amber-light: #7a4a26;
+  --shadow-sm:
+    0 12px 28px rgba(30, 25, 20, 0.1),
+    0 1px 2px rgba(30, 25, 20, 0.06);
+  --shadow-md:
+    0 16px 34px rgba(30, 25, 20, 0.12),
+    0 2px 4px rgba(30, 25, 20, 0.08);
+}
+
+/* Keep the footer as a dark bookend band */
+[data-theme="light"] .footer {
+  --accent: #24849d;
+  --accent-light: #d4e9f0;
+  --amber: #c9956f;
+  --amber-light: #e8d5c4;
+}
+
+[data-theme="light"] body {
+  color: #1a1a1f;
+}
+
+:where([data-theme="light"]) a {
+  color: var(--accent);
+}
+
+/* Navbar */
+[data-theme="light"] .navbar {
+  background: var(--surface);
+}
+[data-theme="light"] .navbar__logo-name {
+  color: #1a1a1f;
+}
+[data-theme="light"] .navbar__logo-role {
+  color: var(--accent);
+}
+[data-theme="light"] .navbar__nav > li > a,
+[data-theme="light"] .navbar__nav > li > button {
+  color: #4a4550;
+}
+[data-theme="light"] .navbar__nav > li > a:hover,
+[data-theme="light"] .navbar__nav > li > button:hover {
+  color: var(--accent);
+  background: #efece6;
+}
+[data-theme="light"] .navbar__toggle {
+  color: #1a1a1f;
+}
+[data-theme="light"] .dropdown {
+  background: var(--surface);
+}
+[data-theme="light"] .dropdown a {
+  color: #4a4550;
+}
+[data-theme="light"] .dropdown a:hover {
+  color: var(--accent);
+  background: #efece6;
+}
+[data-theme="light"] .dropdown__label {
+  color: var(--accent);
+}
+[data-theme="light"] .navbar__nav.open {
+  background: var(--surface);
+}
+
+/* Page header */
+[data-theme="light"] .page-header {
+  background: var(--surface);
+}
+[data-theme="light"] .page-header h1 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .page-header p {
+  color: #4a4550;
+}
+[data-theme="light"] .page-header__eyebrow {
+  color: var(--accent);
+}
+
+/* Breadcrumb */
+[data-theme="light"] .breadcrumb,
+[data-theme="light"] .breadcrumb a {
+  color: var(--slate);
+}
+
+/* Cards */
+[data-theme="light"] .card,
+[data-theme="light"] .pastClasses {
+  background: var(--surface);
+}
+[data-theme="light"] .card h3,
+[data-theme="light"] .pastClasses h3 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .card p:not(.card__label),
+[data-theme="light"] .pastClasses p:not(.card__label) {
+  color: #4a4550;
+}
+[data-theme="light"] .card__arrow {
+  color: var(--accent-light);
+}
+[data-theme="light"] .accent--blue,
+[data-theme="light"] .accent--teal {
+  color: var(--accent);
+}
+[data-theme="light"] .accent--amber {
+  color: var(--amber);
+}
+[data-theme="light"] .accent--purple {
+  color: #6a5480;
+}
+[data-theme="light"] .accent--green {
+  color: #2f7a52;
+}
+
+/* Section headings (h2 has no use inside the dark hero/footer bands) */
+[data-theme="light"] h2 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .section-heading p {
+  color: #4a4550;
+}
+
+/* Sub-nav */
+[data-theme="light"] .sub-nav {
+  background: var(--surface);
+}
+[data-theme="light"] .sub-nav a,
+[data-theme="light"] .sub-nav button {
+  color: #4a4550;
+}
+[data-theme="light"] .sub-nav a:hover,
+[data-theme="light"] .sub-nav button:hover {
+  color: var(--accent);
+  background: #efece6;
+}
+[data-theme="light"] .sub-nav .dropdown {
+  background: var(--surface);
+}
+[data-theme="light"] .sub-nav .dropdown a {
+  color: #4a4550;
+}
+[data-theme="light"] .sub-nav .dropdown a:hover {
+  color: var(--accent);
+  background: #efece6;
+}
+
+/* Content blocks / lists */
+[data-theme="light"] .content-block h3 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .clean-list li {
+  color: #4a4550;
+}
+[data-theme="light"] .clean-list--aligned .vol-role {
+  color: #1a1a1f;
+}
+[data-theme="light"] .highlight-box {
+  background: #eaf5f8;
+  border-left-color: var(--accent);
+  color: #0f4a58;
+}
+
+/* Timeline */
+[data-theme="light"] .timeline-item__content::before {
+  background: var(--cream);
+}
+[data-theme="light"] .timeline-item__year {
+  color: var(--accent-light);
+}
+[data-theme="light"] .timeline-item__content h4 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .timeline-item__content p {
+  color: #4a4550;
+}
+[data-theme="light"] .timeline-toggle {
+  color: var(--accent-light);
+}
+[data-theme="light"] .timeline-toggle:hover {
+  background: #efece6;
+}
+[data-theme="light"] #timeline-toggle.open,
+[data-theme="light"] #pub-toggle {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Scroll to top */
+[data-theme="light"] #scroll-top {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+}
+
+/* Recommendation modal */
+[data-theme="light"] .rec-modal__box {
+  background: var(--surface);
+}
+[data-theme="light"] .rec-modal__text {
+  color: #1a1a1f;
+}
+[data-theme="light"] .rec-modal__close:hover {
+  color: #1a1a1f;
+}
+
+/* Publications / summary */
+[data-theme="light"] .summary-bubble {
+  background: var(--surface);
+}
+[data-theme="light"] .u-summary-muted {
+  color: #4a4550;
+}
+[data-theme="light"] .pub-card__arrow {
+  color: var(--accent-light);
+}
+
+/* Roster widgets (IEEE / IEEE-CS / Hillsborough / UMGC) keep their
+   dark member cards, since their avatar/badge colors are tuned for
+   a dark backdrop; only the section heading, which sits directly on
+   the page background, needs to switch to dark text. ieee.css styles
+   its member cards with a bare .card selector (the other three scope
+   it to .roster-container .card), so it's restated here too, at
+   higher specificity than the general .card → light-surface rule
+   above, to keep all four roster widgets looking consistent. */
+[data-theme="light"] .roster-container,
+[data-theme="light"] .roster-container h2 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .roster-container .card {
+  background: var(--navy-mid);
+}
+
+/* Homepage hero — follows the light theme like the rest of the site
+   (it no longer keeps its own --accent/--amber values, so its links
+   and buttons already pick up the same darker accent colors used
+   everywhere else; only its hardcoded dark literals need restating). */
+[data-theme="light"] .hero {
+  background: var(--cream);
+}
+[data-theme="light"] .hero::before {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(26, 26, 31, 0.035) 40px,
+    rgba(26, 26, 31, 0.035) 41px
+  );
+}
+[data-theme="light"] .hero + .section {
+  border-top-color: var(--accent);
+}
+[data-theme="light"] .hero__eyebrow {
+  color: var(--accent);
+}
+[data-theme="light"] .hero h1 {
+  color: #1a1a1f;
+}
+[data-theme="light"] .hero h1 em {
+  color: rgba(26, 26, 31, 0.55);
+}
+[data-theme="light"] .hero__role,
+[data-theme="light"] .hero__lead {
+  color: #4a4550;
+}
+[data-theme="light"] .btn--primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+[data-theme="light"] .btn--primary:hover {
+  background: #0f5a6c;
+  color: #ffffff;
+}
+[data-theme="light"] .btn--outline {
+  color: var(--accent);
+  border-color: var(--border-dark);
+}
+[data-theme="light"] .hero__cta .btn--outline {
+  color: var(--accent-light);
+  border-color: var(--accent-light);
 }

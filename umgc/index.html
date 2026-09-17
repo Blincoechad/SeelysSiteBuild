@@ -16,7 +16,13 @@
   </head>
   <body>
     <script>
-      
+      (function () {
+        try {
+          if (localStorage.getItem("theme") === "light") {
+            document.documentElement.setAttribute("data-theme", "light");
+          }
+        } catch (e) {}
+      })();
     </script>
     <nav class="navbar" role="navigation" aria-label="Main navigation">
       <div class="container navbar__inner">
@@ -29,6 +35,21 @@
             <span class="navbar__logo-role">Resource Hub</span>
           </div>
         </a>
+        <label class="theme-switch">
+          <input
+            type="checkbox"
+            id="theme-toggle"
+            class="theme-switch__input"
+            aria-label="Toggle dark mode"
+            checked
+          />
+          <span class="theme-switch__track">
+            <span class="theme-switch__thumb">
+              <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+              <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </span>
+          </span>
+        </label>
         <button
           class="navbar__toggle"
           id="nav-toggle"
@@ -165,7 +186,7 @@
             </a>
           </section>
 
-          <h3 class="calendar-heading">Upcoming Events(example calendar)</h3>
+          <h3 class="calendar-heading">Upcoming Events</h3>
           <section class="calendar-wrapper" aria-label="Upcoming events calendar">
             <iframe
               title="UMGC events calendar"

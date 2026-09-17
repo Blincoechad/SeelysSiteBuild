@@ -12,22 +12,9 @@
   }
 }
 
-/* Club Roster Widget — IEEE Dark Theme */
-:root {
-  --navy: #615c68;
-  --navy-mid: #4a4752;
-  --slate: #8b8793;
-  --slate-light: #a9a0b0;
-  --cream: #1a1a1f;
-  --white: #dddddd;
-  --border: #3e3d42;
-  --border-dark: #4a4752;
-  --accent: #24849d;
-  --accent-light: #d4e9f0;
-  --amber: #c9956f;
-  --amber-light: #e8d5c4;
-  --success: #4caf7f;
-}
+/* Club Roster Widget — IEEE Dark Theme
+   (color tokens come from css/styles.css's :root, which always
+   loads first on every page — no need to redeclare them here) */
 .SchoolLogo-Hcc {
   max-width: 8rem;
   height: auto;
@@ -241,8 +228,8 @@
   font-weight: 500;
   flex-shrink: 0;
 }
-/* Avatar role color classes used by Hillsborough coding roster */
-
+/* Avatar role color classes: used by Hillsborough coding roster */
+/* Avatar style editing */
 .av-member {
   color: rgb(21, 180, 69);
   background-color: rgb(32, 56, 42);
@@ -264,7 +251,7 @@
   color: rgb(151, 186, 238);
 }
 
-/* Badge role color classes used by Hillsborough coding roster */
+/* Badge role color classes: used by Hillsborough coding roster */
 .name {
   font-size: 14px;
   font-weight: 500;
@@ -281,7 +268,7 @@
   margin-top: 4px;
   letter-spacing: 0.02em;
 }
-
+   /* Roster chip editing  */
 .b-president {
   background: rgba(36, 132, 157, 0.2);
   color: rgb(151, 186, 238);
@@ -349,65 +336,22 @@
   }
 }
 
-/* INLINE STYLE MIGRATION UTILITIES */
-.u-bg-school-blue {
-  background: #2b6cb0;
-}
-.u-bg-school-teal {
-  background: #2c7a7b;
-}
-.u-bg-school-amber {
-  background: #b7791f;
-}
-
-.u-border-top-blue {
-  border-top: 3px solid #2b6cb0;
-}
-.u-border-top-teal {
-  border-top: 3px solid #2c7a7b;
-}
-.u-border-top-amber {
-  border-top: 3px solid #b7791f;
-}
-.u-border-top-var-amber {
-  border-top: 3px solid var(--amber);
-}
-.u-border-top-purple {
-  border-top: 3px solid #5a4db0;
-}
-.u-border-top-green {
-  border-top: 3px solid #276749;
-}
-
-.u-border-left-purple {
-  border-left: 3px solid #5a4db0;
-}
-.u-border-left-var-amber {
-  border-left: 3px solid var(--amber);
-}
-
-.u-color-accent {
-  color: #4bbdd4;
-}
-
-.u-mt-20 {
-  margin-top: 20px;
-}
-.u-mt-24 {
-  margin-top: 24px;
-}
-
-.u-max-w-600 {
-  max-width: 600px;
-}
-.u-max-w-760 {
-  max-width: 760px;
-}
-
-.u-section-white-top-border {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-}
+/* Note: the .u-* "inline style migration" utility classes that used
+   to live here were byte-for-byte identical to css/styles.css's
+   copies (which always loads first, so the duplicates had zero
+   effect) — removed, EXCEPT .u-color-accent, which was NOT
+   identical: it hardcoded #4bbdd4 (a fixed bright teal) instead of
+   styles.css's var(--accent). That's a bug fix, not just cleanup —
+   .u-color-accent is used as a .card__label on
+   hillsborough/past-classes.html, and #4bbdd4 only has ~2.2:1
+   contrast against the light-theme white card background (WCAG AA
+   needs 4.5:1 for text this size), so it barely faded into the
+   card when the accessibility toggle was switched to light mode.
+   Deleting the override here lets styles.css's var(--accent)-based
+   .u-color-accent apply instead, which already adapts correctly
+   for both themes. .u-summary-muted is kept below because it
+   genuinely differs from styles.css's version and is the one
+   actually in effect on this page. */
 
 .u-summary-muted {
   margin-top: 16px;

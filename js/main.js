@@ -41,6 +41,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ── Theme toggle (light/dark, for low-vision accessibility) ──
+     The control is a checkbox switch (id="theme-toggle"); checked
+     means dark mode (the site's native theme), unchecked means
+     light mode. The knob/icon animation is pure CSS driven by
+     :checked (see .theme-switch rules), so this only needs to keep
+     the checkbox in sync with <html data-theme> and localStorage. */
+  const THEME_STORAGE_KEY = "theme";
+  const themeToggle = document.getElementById("theme-toggle");
+
+  if (themeToggle) {
+    themeToggle.checked =
+      document.documentElement.getAttribute("data-theme") !== "light";
+
+    themeToggle.addEventListener("change", () => {
+      const goingDark = themeToggle.checked;
+
+      if (goingDark) {
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, goingDark ? "dark" : "light");
+      } catch (e) {
+        /* localStorage unavailable (private mode, etc.) — theme just won't persist */
+      }
+    });
+  }
+
   /* ── Mark active link based on current URL ── */
   const currentPath = window.location.pathname;
 
@@ -56,12 +86,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!href) return;
     const normalizedHref = href.replace("../", "").replace("./", "");
 
-    // Special handling for "Home" link: only active at root index.html
+    // Special handling for "Home" link: only active at the root page.
+    // On a real deployment the root URL's pathname is "/" (no
+    // "index.html" in it at all), not just a bare filename with no
+    // folder before it — so that case has to be checked too, or the
+    // Home link never lights up on the actual live homepage.
     if (normalizedHref === "index.html") {
-      // Check if this is the root index.html (no folder before it in the path)
       const isRootIndexPage =
-        currentPath.endsWith("index.html") &&
-        !currentPath.split("/").slice(-2, -1)[0];
+        currentPath === "/" ||
+        currentPath === "" ||
+        (currentPath.endsWith("index.html") &&
+          !currentPath.split("/").slice(-2, -1)[0]);
       if (isRootIndexPage) {
         link.classList.add("active");
       }
@@ -86,22 +121,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Highlight the parent dropdown button for any sub-page not directly listed
-  // Maps folder names to their dropdown data-dropdown attribute value
+  // Highlight the relevant top-level nav item for any sub-page that
+  // isn't directly linked from the navbar. Maps a folder name to a
+  // selector for the nav element representing that section — usually
+  // the parent dropdown's trigger button, but "personal" has no
+  // dropdown (it's a single top-level link), so it maps to that link
+  // instead. Without this, browsing e.g. personal/garden.html left
+  // every nav item unhighlighted, unlike every other section.
   const sectionMap = {
-    hillsborough: "schools",
-    umgc: "schools",
-    schiller: "schools",
-    consulting: "consulting",
-    ieee: "ieee",
-    "ieee-cs": "ieee",
+    hillsborough: '.navbar__nav button[data-dropdown="schools"]',
+    umgc: '.navbar__nav button[data-dropdown="schools"]',
+    schiller: '.navbar__nav button[data-dropdown="schools"]',
+    consulting: '.navbar__nav button[data-dropdown="consulting"]',
+    ieee: '.navbar__nav button[data-dropdown="ieee"]',
+    "ieee-cs": '.navbar__nav button[data-dropdown="ieee"]',
+    personal: '.navbar__nav > li > a[href$="personal/index.html"]',
   };
   const folder = currentPath.split("/").filter(Boolean).slice(-2, -1)[0];
   if (folder && sectionMap[folder]) {
-    const btn = document.querySelector(
-      `.navbar__nav button[data-dropdown="${sectionMap[folder]}"]`,
-    );
-    if (btn) btn.classList.add("active");
+    const el = document.querySelector(sectionMap[folder]);
+    if (el) el.classList.add("active");
   }
 
   /* ── Sub-nav smooth scroll to sections ── */
@@ -460,6 +499,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // ROLE CONFIGS (PER CLUB)
 // ===============================
 const ROLE_CONFIGS = {
+  // Add roles here 
+  // IEEE organization page
   ieee: {
     President: { avatarClass: "av-president", badgeClass: "b-president" },
     Officer: { avatarClass: "av-president", badgeClass: "b-officer" },
@@ -475,7 +516,7 @@ const ROLE_CONFIGS = {
     President: { avatarClass: "av-president", badgeClass: "b-president" },
     Member: { avatarClass: "av-member", badgeClass: "b-member" },
   },
-
+ // UMGC school
   umgcIEEE: {
     President: { avatarClass: "av-president", badgeClass: "b-president" },
     Treasurer: { avatarClass: "av-treasurer", badgeClass: "b-treasurer" },
@@ -488,6 +529,8 @@ const ROLE_CONFIGS = {
 // ROSTER Roles DATA (EDIT HERE ONLY)
 // ===============================
 const ROSTERS = {
+  // Add roster members here with the role here 
+  // IEEE Organization
   "ieee-roles": {
     config: "ieee",
     members: [
@@ -497,7 +540,8 @@ const ROSTERS = {
       { name: "Chad Blincoe", role: "Assistant" },
     ],
   },
-  // hillsborough coding club
+  // school's coding club
+  // hillsborough
   "coding-roster": {
     config: "codingClub",
     members: [
@@ -508,7 +552,7 @@ const ROSTERS = {
       { name: "Bob Smith", role: "Member" },
     ],
   },
-
+// UMGC
   "umgc-ieee": {
     config: "umgcIEEE",
     members: [

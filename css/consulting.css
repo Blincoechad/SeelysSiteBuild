@@ -65,3 +65,7 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 6px;
 }
+
+[data-theme="light"] .offering-card h3 {
+  color: #1a1a1f;
+}
